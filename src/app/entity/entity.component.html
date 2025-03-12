@@ -1,0 +1,15 @@
+<button class="btn btn-outline-primary flex-fill mx-1" routerLink="add" style="flex: 1;">Add Entity</button>
+<div class="card-group" style="margin-bottom: 50px;">
+    <div class="card text-center" *ngFor="let entity of list" style="margin: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <div class="card-header bg-primary text-white">{{entity.id}}</div>
+        <div class="card-body">
+            <h5 class="card-title">{{entity.name}}</h5>
+            <div class="btn-group d-flex justify-content-center" role="group" aria-label="Entity Actions" style="width: 100%;">
+                <button class="btn btn-outline-primary flex-fill mx-1" [routerLink]="['update',entity.id]" style="flex: 1;">Update</button>
+                <button class="btn btn-outline-secondary flex-fill mx-1" [routerLink]="['details',entity.id]" style="flex: 1;">Details</button>
+                <button class="btn btn-outline-danger flex-fill mx-1" (click)="delete(entity)" style="flex: 1;">Delete</button>
+            </div>
+        </div>
+        <div class="card-footer text-muted">{{entity.status}}</div>
+    </div>
+</div>

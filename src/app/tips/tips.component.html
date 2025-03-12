@@ -1,0 +1,194 @@
+<div class="container">
+  <h1>Angular Resume Guide</h1>
+
+  <div>
+    <button class="collapsible" 
+            [class.active]="sections.general"
+            (click)="toggleSection('general', genContent)">
+      General Info
+    </button>
+    <div class="content" #genContent>
+      <h2>Project Setup</h2>
+      <ul>
+        <li>Create a new Angular project: <code>ng new projectname</code></li>
+        <li>Navigate to the project directory: <code>cd projectname</code></li>
+        <li>Install dependencies: <code>npm install</code></li>
+        <li>Ensure <code>node_modules</code> directory is present</li>
+      </ul>
+
+      <h2>Component Creation</h2>
+      <ul>
+        <li>Create a new component: <code>ng g c componentname</code></li>
+      </ul>
+
+      <h2>Service Creation</h2>
+      <ul>
+        <li>Create a new service: <code>ng g s servicename</code></li>
+      </ul>
+
+      <h2>Module Creation</h2>
+      <ul>
+        <li>Create a new module: <code>ng g m modulename</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <button class="collapsible" 
+            [class.active]="sections.routing"
+            (click)="toggleSection('routing', routingContent)">
+      Routing
+    </button>
+    <div class="content" #routingContent>
+      <h2>Basic External Routing Setup</h2>
+      <ul>
+        <li>Create a routing module: <code>ng g m appRouting</code></li>
+        <li>Add the module name to imports in <code>app.module.ts</code></li>
+        <li>In <code>app-routing.module.ts</code>:
+          <ul>
+            <li>Declare a routes variable containing routes and their components</li>
+            <li>Add <code>RouterModule.forRoot(routes)</code> to imports</li>
+            <li>Add <code>RouterModule</code> to exports</li>
+          </ul>
+        </li>
+        <li>In <code>app.component.html</code>:
+          <ul>
+            <li>Remove existing content</li>
+            <li>Add <code>&lt;router-outlet&gt;</code></li>
+          </ul>
+        </li>
+      </ul>
+
+      <h2>Navbar Component</h2>
+      <ul>
+        <li>Create a navbar component: <code>ng g c navbar</code></li>
+        <li>For links without routing, place navbar above <code>&lt;router-outlet&gt;</code> using <code>&lt;app-navbar&gt;</code></li>
+      </ul>
+
+      <h2>Parent-Child Routing</h2>
+      <ul>
+        <li>Create parent component and child components under parent directory</li>
+        <li>Create parent routing module in parent directory</li>
+        <li>Create module for parent component</li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <button class="collapsible" 
+            [class.active]="sections.crud"
+            (click)="toggleSection('crud', crudContent)">
+      Entity CRUD
+    </button>
+    <div class="content" #crudContent>
+      <h2>Setting Up CRUD Operations</h2>
+      <ul>
+        <li>Create a directory <code>core/models</code> and create <code>Entity.ts</code> inside it with the following content:
+          <pre><code>export class Entity &#123;
+    id!: number;
+    name!: string;
+    status!: string;
+  &#125;</code></pre>
+        </li>
+        <li>Create the component <code>Entity</code> to list the entities.</li>
+        <li>Fill the <code>db.json</code> for testing:
+          <pre><code>&#123;
+    "Entity": [
+      &#123;
+        "id": "1",
+        "name": "Updated",
+        "status": "disponnible"
+      &#125;
+    ]
+  &#125;</code></pre>
+        </li>
+        <li>Add the route to the entity component in the app routing and link it in the navbar.</li>
+        <li>Add necessary imports in <code>app.module.ts</code>:
+          <pre><code>import &#123; FormsModule, ReactiveFormsModule &#125; from '&#64;angular/forms';
+  import &#123; HttpClientModule &#125; from '&#64;angular/common/http';</code></pre>
+        </li>
+        <li>Create the service for the entity and implement it. Use the URL <code>http://localhost:3000/Entity</code> for the JSON server.</li>
+        <li>In the entity component TypeScript file:
+          <pre><code>constructor(private entityService: EntityService) &#123;&#125;
+  
+  ngOnInit(): void &#123;
+    this.entityService.getAll().subscribe((data) => &#123;
+      this.list = data;
+    &#125;);
+  &#125;</code></pre>
+        </li>
+        <li>In the entity component HTML file, link with the delete function:
+          <pre><code>&lt;button class="btn btn-outline-danger flex-fill mx-1" (click)="delete(entity)" style="flex: 1;"&gt;Delete&lt;/button&gt;</code></pre>
+        </li>
+        <li>Implement the delete function:
+          <pre><code>delete(entity: Entity) &#123;
+    this.entityService.delete(entity.id).subscribe(() => this.ngOnInit());
+  &#125;</code></pre>
+        </li>
+        <li>Create the component <code>EntityFormComponent</code> for adding an entity. Add the route to this component in the app routing module and link it in the navbar or list.</li>
+        <li>In the form entity TypeScript file:
+          <pre><code>implements OnInit
+  
+  formR!: FormGroup;
+  constructor(private service: EntityService, private router: Router) &#123;&#125;
+  
+  ngOnInit(): void &#123;
+    this.formR = new FormGroup(&#123;
+      // Add form controls with validators
+    &#125;);
+  &#125;</code></pre>
+        </li>
+        <li>In the form entity HTML file, focus on the formControlName in the input and show errors:
+          <pre><code>&lt;div class="alert alert-danger" *ngIf="formR.get('id')?.invalid && formR.get('id')?.touched"&gt;
+    id minimum length is 2
+  &lt;/div&gt;
+  
+  &lt;div class="alert alert-danger" *ngIf="formR.get('address')?.errors?.['maxlength']"&gt;
+    address maximum length is 10
+  &lt;/div&gt;
+  
+  &lt;button type="button" class="btn btn-outline-primary" (click)="add()" [disabled]="formR.invalid"&gt;Add&lt;/button&gt;</code></pre>
+        </li>
+        <li>Create the component <code>UpdateEntityComponent</code> for updating an entity. Add the route to this component in the app routing module and link it in the button:
+          <pre><code>&lt;button [routerLink]="['update', entity.id]"&gt;Update&lt;/button&gt;
+  
+  &#123;path: "entity/update/:id", component: UpdateEntityComponent&#125;</code></pre>
+        </li>
+        <li>Create a service for handling HTTP requests</li>
+        <li>Implement CRUD methods in your service</li>
+      </ul>
+    </div>
+  </div>
+  <div>
+    <button class="collapsible" 
+            [class.active]="sections.backend"
+            (click)="toggleSection('backend', backendContent)">
+      Backend Server Setup
+    </button>
+    <div class="content" #backendContent>
+      <h2>JSON Server</h2>
+      <ul>
+        <li>Install JSON server: <code>npm install json-server</code></li>
+        <li>Create a <code>db.json</code> file</li>
+        <li>Start the server: <code>json-server --watch db.json</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <div>
+    <button class="collapsible" 
+            [class.active]="sections.running"
+            (click)="toggleSection('running', runningContent)">
+      Running the Angular Application
+    </button>
+    <div class="content" #runningContent>
+      <h2>Development Server</h2>
+      <ul>
+        <li>Start the Angular development server: <code>ng serve</code></li>
+        <li>Access the application at <code>http://localhost:4200</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="remark">Remark: Ensure you have imported <code>RouterModule</code> in every module where you are using routing.</p>
+</div>

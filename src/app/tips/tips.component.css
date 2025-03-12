@@ -1,0 +1,70 @@
+.container {
+    width: 80%;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #3f51b5;
+    margin-bottom: 30px;
+  }
+  
+  .collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.4s;
+    margin-top: 10px;
+    border-radius: 4px;
+  }
+  
+  .active, .collapsible:hover {
+    background-color: #3f51b5;
+    color: white;
+  }
+  
+  .content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: #f9f9f9;
+    border-radius: 0 0 4px 4px;
+  }
+  
+  .content h2 {
+    color: #3f51b5;
+    font-size: 18px;
+    margin-top: 15px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding-left: 10px;
+  }
+  
+  li {
+    margin: 8px 0;
+    line-height: 1.5;
+  }
+  
+  code {
+    background-color: #f0f0f0;
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+  }
+  
+  .remark {
+    margin-top: 20px;
+    font-style: italic;
+    color: #666;
+  }

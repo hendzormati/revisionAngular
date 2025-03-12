@@ -1,0 +1,26 @@
+<p>Add A new Enity</p>
+<form [formGroup]="formR">
+
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-user"></i></span>
+        <input type="text" class="form-control" placeholder="id" formControlName="id" >
+    </div>
+    <div class="alert alert-danger" *ngIf="formR.get('id')?.invalid && formR.get('id')?.touched">
+        id minimum length is 2 
+    </div>
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-font"></i></span>
+        <input type="text" class="form-control" placeholder="name"formControlName="name" >
+    </div>
+    <div class="alert alert-danger" *ngIf="formR.get('name')?.invalid && formR.get('name')?.touched">
+        name must start with a majuscule 
+     </div>
+    <div class="input-group flex-nowrap">
+        <span class="input-group-text" id="addon-wrapping"><i class="fa-solid fa-unlock"></i></span>
+        <input type="text" class="form-control" placeholder="status" formControlName="status">
+    </div>
+    <div class="alert alert-danger" *ngIf="status?.invalid && status?.touched">
+        status must be disponnible 
+     </div>
+    <button type="button" class="btn btn-outline-primary" (click)="add()" [disabled]="formR.invalid">Add</button>
+</form>
